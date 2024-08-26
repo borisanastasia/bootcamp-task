@@ -2,12 +2,11 @@ package by.itacademy.bootcamp.task.logic;
 
 import by.itacademy.bootcamp.task.data.Project;
 import by.itacademy.bootcamp.task.data.ProjectRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 import static java.lang.String.format;
 
@@ -28,7 +27,7 @@ public class ProjectService {
 
     public void addEmployee(Long projectId, Long employeeId) {
         var project = projectRepository.findById(projectId).orElseThrow(() ->
-                new IllegalArgumentException("There is no project with id " + projectId));
+                new EntityNotFoundException("There is no project with id " + projectId));
         var employeeExistsInProject = project.getEmployees().stream()
                 .anyMatch(e -> e.getId().equals(employeeId));
 
@@ -37,7 +36,7 @@ public class ProjectService {
         }
 
         var employee = employeeService.findById(employeeId).orElseThrow(() ->
-                new IllegalArgumentException("There is no employee with id " + projectId));
+                new EntityNotFoundException("There is no employee with id " + projectId));
 
         project.getEmployees().add(employee);
         projectRepository.save(project);

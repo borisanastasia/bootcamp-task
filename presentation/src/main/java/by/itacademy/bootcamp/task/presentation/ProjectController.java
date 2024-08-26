@@ -18,7 +18,7 @@ public class ProjectController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public Project add(@Valid @RequestBody Project project){
+    public Project create(@Valid @RequestBody Project project){
       return projectService.save(project);
     }
 
